@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rci-labs",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-10",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": true,
+  "preview_urls": true,
+  "observability": {
+    "enabled": true,
+  },
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+  },
+  "routes": [
+    {
+      "pattern": "app.fulfillmentbuilder.com",
+      "custom_domain": true,
+    },
+  ],
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "rci-labs",
+    },
+  ],
+}

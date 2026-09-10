@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RCI Labs
 
-## Getting Started
+V1 practice-lab platform. Product specs live in `00_README.md` through `10_PROVIDER_COST_RECHECK.md`.
 
-First, run the development server:
+## Local preview (no vendor keys)
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3001](http://localhost:3001) (or 3000). Preview routes use fixture data:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `/preview/mentor` — moderator dashboard
+- `/preview/admin` — members / mentors / rubrics / labs
+- `/preview/student` — lobby + practice room
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Live mentor dashboard (Clerk + Convex):
 
-## Learn More
+1. Open `/mentor` and sign in.
+2. If this email is not a seeded mentor, click **Use this account as local mentor**.
+3. Click **Open Wednesday demo lab**. Join, reset/extend/end timers, move a student, and mentor chat write to Convex.
 
-To learn more about Next.js, take a look at the following resources:
+## Connect the live stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Copy `.env.example` to `.env.local` and fill in Clerk, Convex, Daily, and OpenAI values.
+2. Create a Convex project and run `npx convex dev`.
+3. Set `CLERK_JWT_ISSUER_DOMAIN` on the Convex deployment.
+4. Seed: `npx convex run seed:seedDevelopment`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`npm test`, `npm run typecheck`, and `npm run lint` are wired for CI.
 
-## Deploy on Vercel
+## Hosting
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Production target: [https://app.fulfillmentbuilder.com](https://app.fulfillmentbuilder.com) on Cloudflare Workers via OpenNext.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run deploy
+```
+
+Set Clerk, Convex, and other `NEXT_PUBLIC_*` values as Cloudflare Worker build/runtime variables before deploying. Add `https://app.fulfillmentbuilder.com` to Clerk allowed origins.
